@@ -1,0 +1,107 @@
+[
+  {
+    "id": "1",
+    "name": "Special Pizza",
+    "categoryName": "pizza",
+    "image": "special-pizza.jpg",
+    "description": "Mozeralla kaşar, salam, sosis, yeşil biber, yeşil zeytin, sucuk, mantar, domates, siyah zeytinli.",
+    "clientDescription": ""
+  },
+  {
+    "id": "2",
+    "name": "Sucuklu Pizza",
+    "categoryName": "pizza",
+    "image": "sucuklu-pizza.jpg",
+    "description": "Mozeralla kaşar, sucuk.",
+    "clientDescription": ""
+  },
+  {
+    "id": "3",
+    "name": "Margarita Pizza",
+    "categoryName": "pizza",
+    "image": "margarita-pizza.jpg",
+    "description": "Mozeralla kaşar, salam, sosis, yeşil biber, jambon, domates",
+    "clientDescription": ""
+  },
+  {
+    "id": "9",
+    "name": "Napoli Pizza",
+    "categoryName": "pizza",
+    "image": "napoli-pizza.jpg",
+    "description": "Mozeralla kaşar, yeşil biber, jambonlu",
+    "clientDescription": ""
+  },
+  {
+    "id": "4",
+    "name": "Magnolia",
+    "categoryName": "deserts",
+    "image": "deserts-magnolia.jpg",
+    "description": "xxxxx",
+    "clientDescription": ""
+  },
+  {
+    "id": "5",
+    "name": "Cheesecake",
+    "categoryName": "deserts",
+    "image": "deserts-cheesecake.jpg",
+    "description": "xxxxx",
+    "clientDescription": ""
+  },
+  {
+    "id": "6",
+    "name": "Çay",
+    "categoryName": "drinks",
+    "image": "deserts-cheesecake.jpg",
+    "description": "xxxxx",
+    "clientDescription": ""
+  },
+  {
+    "id": "7",
+    "name": "4 Kişilik Serpme Kahvaltı",
+    "categoryName": "breakfast",
+    "image": "deserts-cheesecake.jpg",
+    "description": "xxxxx",
+    "clientDescription": ""
+  },
+  {
+    "id": "8",
+    "name": "Beşamel Soslu Tavuk",
+    "categoryName": "italian-kitchen",
+    "image": "deserts-cheesecake.jpg",
+    "description": "xxxxx",
+    "clientDescription": ""
+  },
+  {
+    "id": "9",
+    "name": "Yemek Çeşitleri",
+    "categoryName": "food-types",
+    "image": "food-types.jpg",
+    "description": "xxxxx",
+    "clientDescription": ""
+  },
+  {
+    "id": "8",
+    "name": "Izgara Çeşitleri",
+    "categoryName": "grilled",
+    "image": "grilled.jpg",
+    "description": "xxxxx",
+    "clientDescription": ""
+  },
+  {
+    "id": "8",
+    "name": "Salads",
+    "categoryName": "salads",
+    "image": "salads.jpg",
+    "description": "xxxxx",
+    "clientDescription": ""
+  },
+  {
+    "id": "8",
+    "name": "Wraps",
+    "categoryName": "wrapas",
+    "image": "wraps.jpg",
+    "description": "xxxxx",
+    "clientDescription": ""
+  }
+ 
+]
