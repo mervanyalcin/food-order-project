@@ -3,14 +3,18 @@ const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+const cors = require("cors")
 const multer = require("multer");
-const cors = require("cors");
 const path = require("path");
+bodyParser = require('body-parser');
 
-const categoryRoutes = require("./routes/category");
-const productRoutes = require("./routes/product");
 
+const port = 5000;
 dotenv.config();
+
+const categoryRoutes = require("./routes/category.js");
+const authRoutes = require("./routes/auth.js")
+
 mongoose.set("strictQuery", false);
 const connect = async () => {
   try {
@@ -21,11 +25,12 @@ const connect = async () => {
     console.log(err);
   }
 };
+
 //middleware
 app.use("/images", express.static(path.join(__dirname, "public/images")));
+app.use(cors())
 app.use(express.json());
 app.use(morgan("common"));
-app.use(cors())
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -45,11 +50,16 @@ app.post("/upload", upload.single("file"), (req, res) => {
   }
 });
 
-app.use("/category", categoryRoutes);
-app.use("/product", productRoutes);
 
 
-app.listen(5000, () => {
+
+ 
+app.use("/category", categoryRoutes); 
+app.use("/auth", authRoutes); 
+
+
+
+app.listen(port, () => {
   connect();
   console.log("Server is running on port ");
 });

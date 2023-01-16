@@ -7,6 +7,6 @@
   body,
   #root {
     @apply h-full;
-  } 
-
+    font-family: "Open Sans", "Verdana", sans-serif;
+  }
 }

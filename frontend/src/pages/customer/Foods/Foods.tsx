@@ -1,14 +1,14 @@
 import React from 'react'
 import datas from "datas.json"
 import { observer } from 'mobx-react-lite'
-import { store } from 'store'
+import { foodStore } from 'store'
 import { Link } from 'react-router-dom'
-import Back from 'pages/customer/components/Back'
+import Back from '../components/Back'
 
 interface IFoodsProps { }
 export const Foods: React.FC<IFoodsProps> = observer(() => {
 
-  const { setSelectedFood, selectedCategory } = store
+  const { setSelectedFood, selectedCategory } = foodStore
 
   const newDatas = datas.filter((data) => {
     return data.categoryName === selectedCategory?.categoryName

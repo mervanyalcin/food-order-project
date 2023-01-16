@@ -1,17 +1,17 @@
-import { createBrowserRouter } from "react-router-dom"
+import { createBrowserRouter } from "react-router-dom";
 
-import { MainLayout } from "pages/customer"
-import { Home } from "pages/customer/Home"
-import { Foods } from "pages/customer/Foods"
-import { FoodCheck } from "pages/customer/FoodCheck"
-import { ChefCheck } from "pages/owner/ChefCheck"
-import { Login } from "pages/owner/Login"
-import { Admin } from "pages/owner/Admin"
-import { OwnerLayout } from "pages/owner"
-import { Category } from "pages/owner/Categories"
-import { Products } from "pages/owner/Products"
-import MainSettings from "pages/owner/MainSettings/MainSettings"
-
+import { MainLayout } from "pages/Customer";
+import { Home } from "pages/Customer/Home";
+import { Foods } from "pages/Customer/Foods";
+import { FoodCheck } from "pages/Customer/FoodCheck";
+import { ChefCheck } from "pages/Owner/ChefCheck";
+import { Login } from "pages/User/Login";
+import { Admin } from "pages/Owner/Admin";
+import { OwnerLayout } from "pages/Owner";
+import { Category } from "pages/Owner/Categories";
+import { Products } from "pages/Owner/Products";
+import { MainSettings } from "pages/Owner/MainSettings/MainSettings";
+import { Register } from "pages/User/Register/Register";
 
 const routes = createBrowserRouter([
   {
@@ -20,15 +20,15 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: <Home />,
       },
       {
         path: "menu",
-        element: <Foods />
+        element: <Foods />,
       },
       {
         path: "menu/order",
-        element: <FoodCheck />
+        element: <FoodCheck />,
       },
     ],
   },
@@ -56,21 +56,22 @@ const routes = createBrowserRouter([
             path: "settings",
             element: <MainSettings />,
           },
-        ]
+        ],
       },
       {
         path: "chef",
         element: <ChefCheck />,
       },
-
-    ]
+    ],
   },
   {
     path: "/login",
-    element: <Login />
-  }
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+]);
 
-])
-
-
-export default routes
+export default routes;

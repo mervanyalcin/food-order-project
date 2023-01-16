@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react-lite'
 import React from 'react'
-import { store } from 'store'
+import { foodStore } from 'store'
 
 const OrderDetail = observer(() => {
 
-  const { selectedFood } = store
+  const { selectedFood } = foodStore
 
   return (
     <div className='fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]'>
@@ -18,7 +18,7 @@ const OrderDetail = observer(() => {
           </button>
 
           <button className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-900 rounded-lg " onClick={()=> {
-            store.initializeSelectedFood()
+            foodStore.initializeSelectedFood()
           }}>
             Close
           </button>

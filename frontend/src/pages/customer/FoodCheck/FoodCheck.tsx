@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react-lite'
-import Back from 'pages/customer/components/Back'
 import React, { useState } from 'react'
-import { store } from 'store'
+import { foodStore } from 'store'
+import Back from '../components/Back'
 
 
 interface IFoodCheckProps { }
 export const FoodCheck: React.FC<IFoodCheckProps> = observer(() => {
-  const { selectedFood } = store
+  const { selectedFood } = foodStore
   const [piece, setPiece] = useState<number>(0)
   return (
     <div className='flex flex-col'>

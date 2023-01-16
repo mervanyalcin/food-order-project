@@ -18,14 +18,17 @@ export class Admin {
     this.isProductModalOpen = !this.isProductModalOpen;
   };
 
-  createCategory = async (): Promise<void> => {
-    const requestPayload = {
-      createdBy: "xxx",
-      categoryName: "xxx",
-      categoryImg: "xxx.jpg",
+  createCategory = async (fileName: any, catName: string): Promise<void> => {
+    const requestPayload: any = {
+      createdBy: "Admin",
+      categoryName: catName,
+      categoryImg: fileName
     };
     try {
-      const response = await axios.post("/category/", requestPayload);
+      const response = await axios.post(
+        "http://localhost:5000/category/add/",
+        requestPayload
+      );
       if (response.status === 200) {
         console.log(response.data);
       }
