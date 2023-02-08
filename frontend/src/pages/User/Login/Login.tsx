@@ -15,13 +15,11 @@ export const Login: React.FC<ILoginProps> = observer(() => {
     };
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/auth/login/",
+      const res = await axios.post("/login",
         loginData
       );
       if (res.status === 200) {
         console.log(res.data);
-        // navigate("/");
       }
     } catch (error) {
       console.log("Login has occur an error!");
@@ -67,8 +65,8 @@ export const Login: React.FC<ILoginProps> = observer(() => {
                         type="password"
                         name="password"
                         id="password"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 autofill:focus:bg-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=""
                         autoComplete="new-password"
                         required
                       />

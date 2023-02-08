@@ -1,23 +1,32 @@
 import express from 'express'
-import pg from 'pg'
+import multer from "multer";
 import postgresClient from '../config/db.js';
 const router = express.Router()
 
-// INSERT INTO products (product_name,main_category, img_url, description, price) 
-// SELECT 'Margarita Pizza', categories.cat_name, 'https://cdn.yemek.com/mnresize/1250/833/uploads/2022/03/pizza-margherita-tarifi-yemekcom.jpg', 'Monza Sos, Mozarella, Fesleğen', '119.90' 
-// FROM categories WHERE cat_name = 'pizza'
-
+// Create multer object
+const imageUpload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "images/");
+    },
+    filename: function (req, file, cb) {
+      cb(null, new Date().valueOf() + "_" + file.originalname);
+    },
+  }),
+});
 
 // Create Product
-router.post('/add', async (req, res) => {
+router.post('/add', imageUpload.single("image"), async (req, res) => {
     try {
+        const { filename } = req.file;
+        const filepath = req.file.path;
         const text = `
         INSERT INTO products (product_name, main_category, img_url, description, price) 
-        SELECT '${req.body.product_name}', categories.cat_name, '${req.body.img_url}', '${req.body.description}', '${req.body.price}' 
+        SELECT '${req.body.product_name}', categories.cat_name, '${filename}', '${req.body.description}', '${req.body.price}' 
         FROM categories WHERE categories.cat_name = '${req.body.main_category}'`
         
         const aaaa = await postgresClient.query(text)
-        return res.status(201).json({ createdCategory: {aaaa} })
+        return res.status(201).json({ createdCategory: {filename, filepath, aaaa} })
     } catch (error) {
         console.log('Error occured', error.message)
         return res.status(400).json({ message: error. message })

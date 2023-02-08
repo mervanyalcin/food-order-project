@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../plugins/axios.js";
 import { makeAutoObservable } from "mobx";
 import { IRegisterModel } from "models";
 
@@ -13,14 +13,14 @@ export class AuthStore {
       fullName: datas.fullName,
       email: datas.email,
       password: datas.password,
-      phoneNumber: datas.phoneNumber,
+      phonenumber: datas.phonenumber,
     };
 
+    
+
     try {
-      const res = await axios.post(
-        "http://localhost:5000/auth/register/",
-        registerFormData
-      );
+      const res = await axios.post("/auth", registerFormData);
+      console.log(res);
 
       this.isRegisterSucces = false;
 
@@ -30,13 +30,13 @@ export class AuthStore {
           JSON.stringify({
             email: res.data.email,
             fullName: res.data.fullName,
-            phoneNumber: res.data.phoneNumber,
+            phonenumber: res.data.phonenumber,
             profilePicture: res.data.profilePicture,
             userRole: res.data.userRole,
             jwtToken: "Ebenin tokeni",
           })
         );
-        window.location.href = "/login"
+        // window.location.href = "/login";
       }
     } catch (error) {
       console.log("Registration has occur an error!");

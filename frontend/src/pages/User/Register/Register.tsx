@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../plugins/axios.js";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,21 +15,29 @@ export const Register: React.FC<IRegisterProps> = observer(() => {
 
   const registerHandle = async (e: any) => {
     e.preventDefault();
-    authStore.register({
-      fullName: fullName,
+    // await authStore.register({
+    //   fullName: fullName,
+    //   email: email,
+    //   phonenumber: phone,
+    //   password: password,
+    // });
+    const datas = {
       email: email,
-      phoneNumber: phone,
       password: password,
-    });
+      fullname: fullName,
+      phonenumber: phone,
+    };
+    // const result = await axios.post("/auth", { datas });
 
+    axios
+      .post("/auth", datas)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
-
-  useEffect(() => {
-
-
-  }, [authStore.isRegisterSucces]);
-
-  console.log(authStore.isRegisterSucces);
 
   return (
     <div className="flex h-screen min-h-full flex-col justify-center bg-gray-100">
