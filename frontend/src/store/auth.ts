@@ -1,47 +1,58 @@
-import axios from "../plugins/axios.js";
+import axios from "axios";
 import { makeAutoObservable } from "mobx";
-import { IRegisterModel } from "models";
+import { IRegisterModel, ILoginModel } from "models";
 
 export class AuthStore {
   constructor() {
     makeAutoObservable(this);
   }
 
-  isRegisterSucces: Boolean = false;
+  isRegisterSuccess: boolean = false;
   register = async (datas: IRegisterModel) => {
     const registerFormData: IRegisterModel = {
       fullName: datas.fullName,
       email: datas.email,
       password: datas.password,
-      phonenumber: datas.phonenumber,
+      phoneNumber: datas.phoneNumber,
+      jwtToken: datas.jwtToken,
     };
-
-    
 
     try {
       const res = await axios.post("/auth", registerFormData);
-      console.log(res);
-
-      this.isRegisterSucces = false;
-
       if (res.status === 200) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            email: res.data.email,
-            fullName: res.data.fullName,
-            phonenumber: res.data.phonenumber,
-            profilePicture: res.data.profilePicture,
-            userRole: res.data.userRole,
-            jwtToken: "Ebenin tokeni",
-          })
-        );
-        // window.location.href = "/login";
+        window.location.href = "/login";
       }
     } catch (error) {
+      this.isRegisterSuccess = false;
       console.log("Registration has occur an error!");
     }
   };
+
+
+  isLoginSuccess: boolean = false;
+  login = async (datas: ILoginModel) => {
+    const loginFormData: ILoginModel = {
+      emailorphone: datas.emailorphone, 
+      password: datas.password
+    };
+
+    try {
+      const res = await axios.post("/auth/login", loginFormData);
+
+      console.log(res);
+      
+      if (res.status === 200) {
+        this.isLoginSuccess = true
+        return res.data
+      }
+    } catch (error) {
+      console.log(error);
+      return false
+    }
+  };
+
+
+
 }
 
 export const authStore = new AuthStore();

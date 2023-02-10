@@ -12,6 +12,7 @@ import { Category } from "pages/Owner/Categories";
 import { Products } from "pages/Owner/Products";
 import { MainSettings } from "pages/Owner/MainSettings/MainSettings";
 import { Register } from "pages/User/Register/Register";
+import Logout from "pages/User/Logout/Logout";
 
 const routes = createBrowserRouter([
   {
@@ -39,24 +40,22 @@ const routes = createBrowserRouter([
       {
         path: "/admin",
         element: <Admin />,
-        children: [
-          {
-            path: "categories",
-            element: <Category />,
-          },
-          {
-            path: "products",
-            element: <Products />,
-          },
-          {
-            path: "chef",
-            element: <ChefCheck />,
-          },
-          {
-            path: "settings",
-            element: <MainSettings />,
-          },
-        ],
+      },
+      {
+        path: "categories",
+        element: <Category />,
+      },
+      {
+        path: "products",
+        element: <Products />,
+      },
+      {
+        path: "chef",
+        element: <ChefCheck />,
+      },
+      {
+        path: "settings",
+        element: <MainSettings />,
       },
       {
         path: "chef",
@@ -67,6 +66,10 @@ const routes = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
   },
   {
     path: "/register",

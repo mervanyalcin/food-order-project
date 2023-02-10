@@ -1,11 +1,12 @@
 export interface IRegisterModel {
-  fullName: string;
-  email: string;
-  password: string;
-  phonenumber: string;
+  fullName?: string;
+  email?: string;
+  password?: string;
+  phoneNumber?: string;
+  jwtToken?: string;
 }
 
 export interface ILoginModel extends IRegisterModel {
-  email: string;
-  password: string;
+  emailorphone: string;
+  password: string; 
 }

@@ -1,30 +1,83 @@
 import axios from "axios";
+import { SuccessModal } from "components/Modal";
 import { observer } from "mobx-react-lite";
 import React from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { authStore } from "../../../store/auth";
 
 interface ILoginProps {}
 export const Login: React.FC<ILoginProps> = observer(() => {
+  const [scs, setScs] = React.useState(false); // Success modalın açılma durumunun kontrolü.
+  const [scsTitle, setScsTitle] = React.useState(""); // Success modalın başlığının kontrolü.
+  const [scsText, setScsText] = React.useState(""); // Success modalın içeriğindeki yazının kontrolü.
+  const [scsSuccess, setScsSuccess] = React.useState(false); // Success modalın true yada false olma durumu. (Başarılı / Başarısız işlem.)
+
   const navigate = useNavigate();
 
-  const loginHandle = async (e: any) => {
-    e.preventDefault();
-    const loginData = {
-      email: e.target.email.value,
-      password: e.target.password.value,
-    };
+  // Hook Form
+  const {
+    handleSubmit,
+    control,
+    register,
+    watch,
+    setValue,
+    clearErrors,
+    formState: { errors, dirtyFields },
+  } = useForm({
+    defaultValues: {
+      emailorphone: "",
+      password: "",
+    },
+  });
+  const watcher = watch();
 
+  const onSubmit = async ({
+    emailorphone,
+    password,
+  }: {
+    emailorphone: string;
+    password: string;
+  }) => {
     try {
-      const res = await axios.post("/login",
-        loginData
-      );
-      if (res.status === 200) {
-        console.log(res.data);
+      const result = await authStore.login({
+        emailorphone: emailorphone,
+        password: password,
+      });
+
+      if(result.role === "3") {
+        navigate("/")
+      } else {
+        navigate("/admin")
       }
-    } catch (error) {
-      console.log("Login has occur an error!");
+      
+
+      if (authStore.isRegisterSuccess) {
+        setScs(true);
+        setScsSuccess(true);
+        setScsText(``);
+      } else {
+        setScs(true);
+        setScsSuccess(false);
+        setScsText(``);
+      }
+    } catch (err) {
+      let message;
+      if (err instanceof Error) message = err.message;
+      else message = String(err);
+      setScs(true);
+      setScsSuccess(false);
+      setScsText(`${message}`);
     }
   };
+
+  React.useEffect(()=> {
+    if(authStore.isLoginSuccess) {
+      navigate("/")
+    }
+  })
+
+
   return (
     <div className="flex h-screen min-h-full flex-col justify-center bg-gray-100">
       <div className="mx-auto w-full max-w-xl lg:py-12 lg:px-8">
@@ -36,84 +89,113 @@ export const Login: React.FC<ILoginProps> = observer(() => {
             className="w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
           >
             <div className="relative w-full h-full max-w-md md:h-auto">
-              <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+              <div className="relative bg-theme-color rounded-lg shadow dark:bg-theme-color">
                 <div className="px-6 py-6 lg:px-8">
-                  <h3 className="mb-10 text-xl font-medium text-gray-900 dark:text-white">
-                    Habil Pizza için Kayıt Ol
+                  <h3 className="mb-10 text-xl font-medium text-theme-text-color dark:text-theme-text-color">
+                    Habil Pizza'ya Giriş Yap
                   </h3>
-                  <form className="space-y-6" onSubmit={loginHandle}>
-                    <div className="relative z-0 w-full mb-6 group">
-                      <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        autoComplete="new-email"
-                        required
-                      />
-                      <label
-                        htmlFor="email"
-                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                      >
-                        Email
-                      </label>
-                    </div>
-
-                    <div className="relative z-0 w-full mb-6 group">
-                      <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 autofill:focus:bg-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=""
-                        autoComplete="new-password"
-                        required
-                      />
-                      <label
-                        htmlFor="password"
-                        className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                      >
-                        Password
-                      </label>
-                    </div>
-
-                    <div className="flex justify-between">
-                      <div className="flex items-start">
-                        <div className="flex items-center h-5">
-                          <input
-                            id="remember"
-                            type="checkbox"
-                            value=""
-                            className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                          />
-                        </div>
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mb-6">
+                      <div className="relative mb-6">
+                        <input
+                          id="emailorphone"
+                          type="text"
+                          className={`bg-transparent border-solid rounded-[5px] border py-4 pl-6 peer duration-300 text-xs font-satoshi-medium w-full ${
+                            errors.emailorphone ? "border-[#f32f26]" : null
+                          }`}
+                          {...register("emailorphone", {
+                            required: "Lütfen email adresinizi veya telefon numaranızı giriniz.",
+                          })}
+                        />
                         <label
-                          htmlFor="remember"
-                          className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          htmlFor="emailorphone"
+                          className={` cursor-text  peer-focus:-top-2.5 peer-focus:bg-theme-color transition-all select-none duration-300 px-1 absolute  left-6 text-xs font-satoshi-medium ${
+                            watcher.emailorphone
+                              ? "bg-theme-color -top-2.5"
+                              : "top-4"
+                          } ${
+                            errors.emailorphone
+                              ? "text-[#f32f26]"
+                              : "text-[#919191]"
+                          }`}
                         >
-                          Remember me
+                          Email veya Telefon
                         </label>
+                        {errors.emailorphone && (
+                          <p className=" text-xs text-[#f32f26] mt-1">
+                            {errors.emailorphone.message}
+                          </p>
+                        )}
                       </div>
                     </div>
-                    <button
-                      type="submit"
-                      className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                      Giriş Yap
-                    </button>
 
-                    <div className="flex justify-between">
-                      <Link
-                        to="/register"
-                        className="text-sm text-white hover:underline "
-                      >
-                        Kayıt Ol
-                      </Link>
-                      <Link to="/" className="text-white hover:underline">
-                        Menüye Dön
-                      </Link>
+                    <div className="mb-6">
+                      <div className="relative mb-6 ">
+                        <input
+                          id="password"
+                          type="password"
+                          className={` bg-transparent border-solid rounded-[5px] border py-4 pl-6 peer duration-300 text-sm font-satoshi-medium w-full ${
+                            errors.emailorphone ? "border-[#f32f26]" : null
+                          }`}
+                          {...register("password", {
+                            required: "Lütfen şifrenizi giriniz.",
+                          })}
+                        />
+                        <label
+                          htmlFor="password"
+                          className={` cursor-text  peer-focus:-top-2.5 peer-focus:dark:bg-theme-color transition-all select-none duration-300 px-1 absolute left-6 text-xs font-satoshi-medium ${
+                            watcher.password
+                              ? "bg-theme-color -top-2.5"
+                              : "top-4"
+                          } ${
+                            errors.password
+                              ? "text-[#f32f26]"
+                              : "text-[#919191]"
+                          }`}
+                        >
+                          Şifreniz
+                        </label>
+                        {errors.password && (
+                          <p className="text-xs text-[#f32f26] mt-1">
+                            {errors.password.message}
+                          </p>
+                        )}
+                      </div>
+                      <div className="text-center">
+                        <input
+                          style={{ fontSize: "17px" }}
+                          className="uppercase text-white bg-[#179a64] font-satoshi-bold cursor-pointer py-3 w-full rounded-[5px]"
+                          value="Giriş Yap"
+                          type="submit"
+                        />
+                      </div>
                     </div>
+
+                    <Link
+                      to="/register"
+                      className="text-xs text-theme-text-color hover:underline "
+                    >
+                      Kayıt ol
+                    </Link>
+
+                    {authStore.isRegisterSuccess ? (
+                      <>
+                        <SuccessModal
+                          layout="small"
+                          visible={scs}
+                          onClose={() => {
+                            setScs(false);
+                            // onModalClose();
+                            window.location.reload();
+                          }}
+                          text={scsText}
+                          title={scsTitle}
+                          success={scsSuccess}
+                        />
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </form>
                 </div>
               </div>

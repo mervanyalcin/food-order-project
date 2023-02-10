@@ -1,5 +1,5 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import { authStore } from "store";
 
 const Header = () => {
   return (
@@ -18,14 +18,42 @@ const Header = () => {
         </p>
       </div>
 
-      <div className="max-w-xl mx-auto">
-        <Link to={"/login"} className="py-2.5 px-4 inline-block text-white outline-none text-sm mb-2 bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 ">
-          Giriş Yap 
-        </Link>
-        
-        <Link to={"/register"} className="py-2.5 px-4 ml-1 inline-block text-white outline-none text-sm mb-2 bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 ">
-          Kayıt ol 
-        </Link>
+      <div className="max-w-xl mx-auto flex flex-row justify-between">
+        {!authStore.isLoginSuccess ? (
+          <div>
+            <Link
+              to={"/login"}
+              className="py-2.5 px-4 inline-block  outline-none text-sm mb-2 "
+            >
+              Giriş Yap
+            </Link>
+
+            <Link
+              to={"/register"}
+              className="py-2.5 px-4 ml-1 inline-block  outline-none text-sm mb-2 "
+            >
+              Kayıt ol
+            </Link>
+          </div>
+        ) : (
+          <>
+            <Link
+              to={"/logout"}
+              className="py-2.5 px-4 ml-1 inline-block  outline-none text-sm mb-2 "
+            >
+              Çıkış Yap
+            </Link>
+          </>
+        )}
+
+        {authStore.isLoginSuccess && (
+          <Link
+            to={"/account"}
+            className="py-2.5 px-4 ml-1 inline-block  outline-none text-sm mb-2 "
+          >
+            Hesabım
+          </Link>
+        )}
       </div>
     </>
   );

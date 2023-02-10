@@ -20,11 +20,11 @@ export const Foods: React.FC<IFoodsProps> = observer(() => {
       {
         newDatas.map((data) => (
           <Link to="/menu/order" onClick={() => setSelectedFood(data)}>
-            <div className="bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 mb-3">
+            <div className="bg-white border border-gray-200 rounded-lg shadow-md dark:bg-theme-color dark:border-gray-200 mb-3">
               <img className="rounded-t-lg h-full" src={`${process.env.PUBLIC_URL}/images/${data.categoryName + "/" + data.image}`} alt="" />
               <div className="p-5">
-                <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{data?.name}</h5>
-                <p className="text-gray-700 dark:text-gray-400">{data?.description}</p>
+                <h5 className="text-2xl font-bold tracking-tight text-theme-text-color dark:text-theme-text-color">{data?.name}</h5>
+                <p className="text-theme-text-color dark:text-theme-text-color">{data?.description}</p>
               </div>
             </div>
           </Link>

@@ -14,3 +14,8 @@ export interface IFoodModel {
     image: string;
     categoryName: string;
   }
+
+  export interface ICreateCategoryModel {
+    catName: string;
+    catImg: string;
+  }

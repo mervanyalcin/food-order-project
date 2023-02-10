@@ -17,7 +17,7 @@ const SetProducts: React.FC<ISetProductProps> = observer(({ productStore }) => {
           <div className='fixed w-full h-full bg-black/60 left-0 top-0'>
             <div id="medium-modal" tabIndex={-1} className="fixed flex items-center justify-center z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
               <div className="relative w-full h-full max-w-lg md:h-auto">
-                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div className="relative bg-white rounded-lg shadow dark:bg-theme-color">
                   <div className="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
                     <h3 className="text-xl font-medium text-gray-900 dark:text-white">
                       Ürün Ekle
@@ -32,17 +32,17 @@ const SetProducts: React.FC<ISetProductProps> = observer(({ productStore }) => {
                   <div className="p-6 space-y-6">
                     <div>
                       <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori adı</label>
-                      <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Kategori adı" required />
+                      <input type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-theme-color dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Kategori adı" required />
                     </div>
 
                     <>
                       <h3 className='dark:text-white text-lg'>Ürün içeriği</h3>
-                      <textarea id="description" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ürün içeriği"></textarea>
+                      <textarea id="description" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-theme-color dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ürün içeriği"></textarea>
                     </>
 
                     <div>
                       <label htmlFor="file_input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kategori fotoğrafı</label>
-                      <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" />
+                      <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-theme-color dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" />
                     </div>
 
 
@@ -50,7 +50,7 @@ const SetProducts: React.FC<ISetProductProps> = observer(({ productStore }) => {
                   </div>
                   <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                     <button data-modal-hide="medium-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-                    <button data-modal-hide="medium-modal" type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600" onClick={() => {
+                    <button data-modal-hide="medium-modal" type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-theme-color dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600" onClick={() => {
                       productStore.setIsProductModalOpen()
                     }}>Decline</button>
                   </div>
