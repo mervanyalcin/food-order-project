@@ -7,10 +7,6 @@ import AdminMenu from "../components/AdminMenu";
 interface IAdminProps {}
 export const Admin: React.FC<IAdminProps> = observer(() => {
 
-  if(authStore.isLoginSuccess === false) {
-    window.location.href = "/login"
-  }
-
   return (
     <div>
       <div className="mb-6 mt-6 px-6">

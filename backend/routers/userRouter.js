@@ -24,8 +24,10 @@ router.post("/", async (req, res) => {
 
 // Login
 router.post("/login", async (req, res) => {
+  const { emailorphone, password } = req.body;
+
   try {
-    const text = `SELECT email,fullName, phonenumber,jwt_token, role FROM users WHERE (email = '${req.body.emailorphone}' or phonenumber = '${req.body.emailorphone}') AND password = crypt('${req.body.password}', password)`;
+    const text = `SELECT email, fullName, phonenumber, jwt_token, role FROM users WHERE email = '${emailorphone}' OR phonenumber = '${emailorphone}' AND password = crypt('${password}', password)`;
     const { rows } = await postgresClient.query(text);
     return res.status(200).send(rows[0]);
   } catch (error) {

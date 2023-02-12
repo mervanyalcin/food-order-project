@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SuccessModal } from "components/Modal";
 import { observer } from "mobx-react-lite";
+import { AdminStore } from "pages/Owner/store";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,11 +9,10 @@ import { authStore } from "../../../store/auth";
 
 interface ILoginProps {}
 export const Login: React.FC<ILoginProps> = observer(() => {
-  const [scs, setScs] = React.useState(false); // Success modalın açılma durumunun kontrolü.
-  const [scsTitle, setScsTitle] = React.useState(""); // Success modalın başlığının kontrolü.
-  const [scsText, setScsText] = React.useState(""); // Success modalın içeriğindeki yazının kontrolü.
-  const [scsSuccess, setScsSuccess] = React.useState(false); // Success modalın true yada false olma durumu. (Başarılı / Başarısız işlem.)
-
+  // const [scs, setScs] = React.useState(false); // Success modalın açılma durumunun kontrolü.
+  // const [scsTitle, setScsTitle] = React.useState(""); // Success modalın başlığının kontrolü.
+  // const [scsText, setScsText] = React.useState(""); // Success modalın içeriğindeki yazının kontrolü.
+  // const [scsSuccess, setScsSuccess] = React.useState(false); // Success modalın true yada false olma durumu. (Başarılı / Başarısız işlem.)
   const navigate = useNavigate();
 
   // Hook Form
@@ -31,6 +31,7 @@ export const Login: React.FC<ILoginProps> = observer(() => {
     },
   });
   const watcher = watch();
+  const sleep = (ms: any) => new Promise((r) => setTimeout(r, ms));
 
   const onSubmit = async ({
     emailorphone,
@@ -45,37 +46,36 @@ export const Login: React.FC<ILoginProps> = observer(() => {
         password: password,
       });
 
-      if(result.role === "3") {
-        navigate("/")
-      } else {
-        navigate("/admin")
-      }
-      
+      if (authStore.isLoginSuccess) {
+        AdminStore.isModalOpen = true;
+        AdminStore.isSuccessOrNot = true;
+        AdminStore.successText = "Giriş İşlemi Başarılı Yönlendiriliyorsunuz";
+        AdminStore.successTitle = "Başarılı";
 
-      if (authStore.isRegisterSuccess) {
-        setScs(true);
-        setScsSuccess(true);
-        setScsText(``);
+        await sleep(1000);
+
+        if (result.role === "3") {
+          navigate("/");
+        } else if (result.role === "1") {
+          navigate("/admin");
+        }
       } else {
-        setScs(true);
-        setScsSuccess(false);
-        setScsText(``);
+        AdminStore.isModalOpen = true;
+        AdminStore.isSuccessOrNot = false;
+        AdminStore.successText =
+          "Kullanızı adı veya şifreniz hatalı gibi gözüküyor";
+        AdminStore.successTitle = "Başarısız";
       }
     } catch (err) {
       let message;
       if (err instanceof Error) message = err.message;
       else message = String(err);
-      setScs(true);
-      setScsSuccess(false);
-      setScsText(`${message}`);
+      AdminStore.isModalOpen = true;
+      AdminStore.isSuccessOrNot = false;
+      AdminStore.successText = `${err}`;
+      AdminStore.successTitle = "Bir sorun çıktı;";
     }
   };
-
-  React.useEffect(()=> {
-    if(authStore.isLoginSuccess) {
-      navigate("/")
-    }
-  })
 
 
   return (
@@ -104,7 +104,8 @@ export const Login: React.FC<ILoginProps> = observer(() => {
                             errors.emailorphone ? "border-[#f32f26]" : null
                           }`}
                           {...register("emailorphone", {
-                            required: "Lütfen email adresinizi veya telefon numaranızı giriniz.",
+                            required:
+                              "Lütfen email adresinizi veya telefon numaranızı giriniz.",
                           })}
                         />
                         <label
@@ -178,24 +179,16 @@ export const Login: React.FC<ILoginProps> = observer(() => {
                       Kayıt ol
                     </Link>
 
-                    {authStore.isRegisterSuccess ? (
-                      <>
-                        <SuccessModal
-                          layout="small"
-                          visible={scs}
-                          onClose={() => {
-                            setScs(false);
-                            // onModalClose();
-                            window.location.reload();
-                          }}
-                          text={scsText}
-                          title={scsTitle}
-                          success={scsSuccess}
-                        />
-                      </>
-                    ) : (
-                      <></>
-                    )}
+                    <SuccessModal
+                      layout="small"
+                      visible={AdminStore.isModalOpen}
+                      onClose={() => {
+                        AdminStore.isModalOpen = false;
+                      }}
+                      text={AdminStore.successText}
+                      title={AdminStore.successTitle}
+                      success={AdminStore.isSuccessOrNot}
+                    />
                   </form>
                 </div>
               </div>

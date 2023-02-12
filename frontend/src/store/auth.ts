@@ -35,14 +35,12 @@ export class AuthStore {
       emailorphone: datas.emailorphone, 
       password: datas.password
     };
-
     try {
       const res = await axios.post("/auth/login", loginFormData);
-
-      console.log(res);
-      
+      if(res.data) {
+        this.isLoginSuccess = true;
+      }
       if (res.status === 200) {
-        this.isLoginSuccess = true
         return res.data
       }
     } catch (error) {

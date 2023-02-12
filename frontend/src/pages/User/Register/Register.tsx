@@ -73,8 +73,8 @@ export const Register: React.FC<IRegisterProps> = observer(() => {
     }
   };
 
-  if(authStore.isLoginSuccess) {
-    navigate("/")
+  if (authStore.isLoginSuccess) {
+    navigate("/");
   }
 
   return (

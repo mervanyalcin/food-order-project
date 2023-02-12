@@ -4,8 +4,8 @@ import { Admin, AdminStore } from "../store";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
-interface ISetCategoryProps {}
-const SetCategory: React.FC<ISetCategoryProps> = observer(() => {
+interface ICategoryAddFormProps {}
+const CategoryAddForm: React.FC<ICategoryAddFormProps> = observer(() => {
   const [file, setFile] = useState<any>(null);
 
   interface INewCategory {
@@ -35,11 +35,11 @@ const SetCategory: React.FC<ISetCategoryProps> = observer(() => {
     catImg,
   }: {
     catName: string;
-    catImg: any;
+    catImg: string;
   }) => {
     try {
       await AdminStore.createCategory({
-        catImg: catImg[0].name,
+        catImg: catImg,
         catName: catName,
       });
     } catch (error) {}
@@ -84,7 +84,7 @@ const SetCategory: React.FC<ISetCategoryProps> = observer(() => {
                         <input
                           id="catName"
                           type="text"
-                          className={`bg-transparent rounded-[5px] text-theme-text-color border-b-2  py-4 pl-6 peer duration-300 text-xs font-satoshi-medium w-full ${
+                          className={`bg-transparent rounded-[5px] focus:outline-double text-theme-text-color border-b-2  py-4 pl-6 peer duration-300 text-xs font-satoshi-medium w-full ${
                             errors.catName ? "border-[#f32f26]" : null
                           }`}
                           {...register("catName", {
@@ -115,14 +115,25 @@ const SetCategory: React.FC<ISetCategoryProps> = observer(() => {
                       <div className="relative mb-6">
                         <input
                           id="catImg"
-                          type="file"
-                          className={`bg-transparent rounded-[5px] text-theme-text-color border-b-2  py-4 pl-6 peer duration-300 text-xs font-satoshi-medium w-full ${
+                          type="text"
+                          className={`bg-transparent rounded-[5px] focus:outline-double text-theme-text-color border-b-2  py-4 pl-6 peer duration-300 text-xs font-satoshi-medium w-full ${
                             errors.catImg ? "border-[#f32f26]" : null
                           }`}
                           {...register("catImg", {
                             required: "Lütfen fotoğraf seçiniz.",
                           })}
                         />
+
+                        <label
+                          htmlFor="catImg"
+                          className={` cursor-text peer-focus:-top-2.5 peer-focus:bg-theme-color transition-all select-none duration-300 px-1 absolute  left-6 text-xs font-satoshi-medium ${
+                            watcher.catImg ? "bg-theme-color -top-2.5" : "top-4"
+                          } ${
+                            errors.catImg ? "text-[#f32f26]" : "text-[#919191]"
+                          }`}
+                        >
+                          Kategori'nin Fotoğraf Linki*
+                        </label>
 
                         {errors.catImg && (
                           <p className=" text-xs text-[#f32f26] mt-1">
@@ -163,4 +174,4 @@ const SetCategory: React.FC<ISetCategoryProps> = observer(() => {
   );
 });
 
-export default SetCategory;
+export default CategoryAddForm;
