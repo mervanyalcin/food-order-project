@@ -1,2 +1,2 @@
-export * from "./Food"
-export * from "./Auth"
+export * from "./FoodModel"
+export * from "./AuthModel"

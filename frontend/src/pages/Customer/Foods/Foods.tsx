@@ -11,7 +11,7 @@ export const Foods: React.FC<IFoodsProps> = observer(() => {
   const { setSelectedFood, selectedCategory } = foodStore
 
   const newDatas = datas.filter((data) => {
-    return data.categoryName === selectedCategory?.categoryName
+    return data.categoryName === selectedCategory?.name
   })
 
   return (

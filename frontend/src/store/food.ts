@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable, observable } from "mobx";
 import { ICategoryModel, IFoodModel } from "models";
 
 export class FoodStore {
@@ -7,30 +7,28 @@ export class FoodStore {
   }
 
   /* Make Form Empty */
-  initializeSelectedFood = (): void => {
+  @action initializeSelectedFood = (): void => {
     this.selectedFood = {
       id: "",
       name: "",
       categoryName: "",
       image: "",
       description: "",
-      clientDescription: ""
+      clientDescription: "",
     };
   };
 
   /* Select Current Main Category of Food */
-  selectedCategory: ICategoryModel | undefined;
-  setSelectedCategory = (catName: any): void => {
-    this.selectedCategory = { ...catName };
+  @observable selectedCategory: ICategoryModel | undefined;
+  @action setSelectedCategory = (cat_name: ICategoryModel): void => {
+    this.selectedCategory = { ...cat_name };
   };
 
   /* Select Current Food */
-  selectedFood: IFoodModel | undefined;
-  setSelectedFood = (food: IFoodModel): void => {
+  @observable selectedFood: IFoodModel | undefined;
+  @action setSelectedFood = (food: IFoodModel): void => {
     this.selectedFood = { ...food };
   };
-
-
 }
 
 export const foodStore = new FoodStore();

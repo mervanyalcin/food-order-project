@@ -1,7 +1,5 @@
 // Third Party Modules
-import { AdminStore } from "pages/Owner/store";
-import React, { useState } from "react";
-import { authStore } from "store";
+import React from "react";
 // Icons
 
 // Custom Interface

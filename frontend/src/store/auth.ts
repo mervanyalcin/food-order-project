@@ -1,5 +1,5 @@
 import axios from "axios";
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable, observable } from "mobx";
 import { IRegisterModel, ILoginModel } from "models";
 
 export class AuthStore {
@@ -7,8 +7,8 @@ export class AuthStore {
     makeAutoObservable(this);
   }
 
-  isRegisterSuccess: boolean = false;
-  register = async (datas: IRegisterModel) => {
+  @observable isRegisterSuccess: boolean = false;
+  @action register = async (datas: IRegisterModel) => {
     const registerFormData: IRegisterModel = {
       fullName: datas.fullName,
       email: datas.email,
@@ -18,7 +18,7 @@ export class AuthStore {
     };
 
     try {
-      const res = await axios.post("/auth", registerFormData);
+      const res = await axios.post("/api/auth", registerFormData);
       if (res.status === 200) {
         window.location.href = "/login";
       }
@@ -28,29 +28,25 @@ export class AuthStore {
     }
   };
 
-
-  isLoginSuccess: boolean = false;
-  login = async (datas: ILoginModel) => {
+  @observable isLoginSuccess: boolean = false;
+  @action login = async (datas: ILoginModel) => {
     const loginFormData: ILoginModel = {
-      emailorphone: datas.emailorphone, 
-      password: datas.password
+      emailorphone: datas.emailorphone,
+      password: datas.password,
     };
     try {
-      const res = await axios.post("/auth/login", loginFormData);
-      if(res.data) {
+      const res = await axios.post("/api/auth/login", loginFormData);
+      if (res.data) {
         this.isLoginSuccess = true;
       }
       if (res.status === 200) {
-        return res.data
+        return res.data;
       }
     } catch (error) {
       console.log(error);
-      return false
+      return false;
     }
   };
-
-
-
 }
 
 export const authStore = new AuthStore();

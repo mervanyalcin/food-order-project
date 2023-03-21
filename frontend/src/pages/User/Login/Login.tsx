@@ -1,4 +1,3 @@
-import axios from "axios";
 import { SuccessModal } from "components/Modal";
 import { observer } from "mobx-react-lite";
 import { AdminStore } from "pages/Owner/store";
@@ -9,10 +8,7 @@ import { authStore } from "../../../store/auth";
 
 interface ILoginProps {}
 export const Login: React.FC<ILoginProps> = observer(() => {
-  // const [scs, setScs] = React.useState(false); // Success modalın açılma durumunun kontrolü.
-  // const [scsTitle, setScsTitle] = React.useState(""); // Success modalın başlığının kontrolü.
-  // const [scsText, setScsText] = React.useState(""); // Success modalın içeriğindeki yazının kontrolü.
-  // const [scsSuccess, setScsSuccess] = React.useState(false); // Success modalın true yada false olma durumu. (Başarılı / Başarısız işlem.)
+  const {isModalOpen, isSuccessOrNot, successText, successTitle,setIsSuccessOrNot, setIsModalOpen, setSuccessText, setSuccessTitle} = AdminStore
   const navigate = useNavigate();
 
   // Hook Form
@@ -47,10 +43,10 @@ export const Login: React.FC<ILoginProps> = observer(() => {
       });
 
       if (authStore.isLoginSuccess) {
-        AdminStore.isModalOpen = true;
-        AdminStore.isSuccessOrNot = true;
-        AdminStore.successText = "Giriş İşlemi Başarılı Yönlendiriliyorsunuz";
-        AdminStore.successTitle = "Başarılı";
+        setIsModalOpen(true);
+        setIsSuccessOrNot(true);
+        setSuccessText("Giriş İşlemi Başarılı Yönlendiriliyorsunuz")
+        setSuccessTitle("Başarılı")
 
         await sleep(1000);
 
@@ -60,20 +56,20 @@ export const Login: React.FC<ILoginProps> = observer(() => {
           navigate("/admin");
         }
       } else {
-        AdminStore.isModalOpen = true;
-        AdminStore.isSuccessOrNot = false;
-        AdminStore.successText =
-          "Kullanızı adı veya şifreniz hatalı gibi gözüküyor";
-        AdminStore.successTitle = "Başarısız";
+        setIsModalOpen(true);
+        setIsSuccessOrNot(false);
+        setSuccessText("Kullanızı adı veya şifreniz hatalı gibi gözüküyor")
+        setSuccessTitle("Başarısız")
       }
     } catch (err) {
       let message;
       if (err instanceof Error) message = err.message;
       else message = String(err);
-      AdminStore.isModalOpen = true;
-      AdminStore.isSuccessOrNot = false;
-      AdminStore.successText = `${err}`;
-      AdminStore.successTitle = "Bir sorun çıktı;";
+      
+      setIsModalOpen(true);
+      setIsSuccessOrNot(false);
+      setSuccessText(`${err}`)
+      setSuccessTitle("Bir sorun çıktı;")
     }
   };
 
@@ -181,13 +177,13 @@ export const Login: React.FC<ILoginProps> = observer(() => {
 
                     <SuccessModal
                       layout="small"
-                      visible={AdminStore.isModalOpen}
+                      visible={isModalOpen}
                       onClose={() => {
-                        AdminStore.isModalOpen = false;
+                        setIsModalOpen(false)
                       }}
-                      text={AdminStore.successText}
-                      title={AdminStore.successTitle}
-                      success={AdminStore.isSuccessOrNot}
+                      text={successText}
+                      title={successTitle}
+                      success={isSuccessOrNot}
                     />
                   </form>
                 </div>

@@ -3,22 +3,19 @@ import multer from "multer";
 import postgresClient from "../config/db.js";
 const router = express.Router();
 
-// Create Category 
+// Create Category
 router.post("/add", async (req, res) => {
   try {
-    const { catName, catImg } = req.body;
-    console.log(catImg);
-    console.log(catName);
-    const text = `INSERT INTO categories (cat_name, img_url) SELECT '${catName}', '${catImg}'`;
-
+    const {  name, img } = req.body;
+    console.log(name, img);
+    const text = `INSERT INTO categories (name, img) SELECT '${name}', '${img}'`;
     const { rows } = await postgresClient.query(text);
-    return res.status(201).json({ createdCategory: rows[0] });
+    return res.status(200).json({ createdCategory: rows[0] });
   } catch (error) {
     console.log("Error occured", error.message);
     return res.status(400).json({ message: error.message });
   }
 });
-
 
 // Get Category
 router.post("/get", async (req, res) => {
@@ -32,7 +29,31 @@ router.post("/get", async (req, res) => {
   }
 });
 
+// Set Category
+router.post("/set", async (req, res) => {
+  try {
+    const { id, name, img } = req.body;
+    const text = `UPDATE categories SET "name" = '${name}', "img" = '${img}' WHERE id = ${id}`;
+    const { rows } = await postgresClient.query(text);
+    return res.status(200).json(rows);
+  } catch (error) {
+    console.log("Error occured", error.message);
+    return res.status(400).json({ message: error.message });
+  }
+});
 
+// Delete Category
+router.post("/delete", async (req, res) => {
+  try {
+    const { id } = req.body;
+    const text = `DELETE FROM categories WHERE id = ${id}`;
+    const { rows } = await postgresClient.query(text);
+    return res.status(200).json(rows);
+  } catch (error) {
+    console.log("Error occured", error.message);
+    return res.status(400).json({ message: error.message });
+  }
+});
 
 // Create multer object
 // const imageUpload = multer({
@@ -49,10 +70,10 @@ router.post("/get", async (req, res) => {
 // router.post("/add", imageUpload.single("image"), async (req, res) => {
 //   try {
 //     const { filename } = req.file;
-//     const { catName } = req.body;
+//     const { name } = req.body;
 //     console.log(filename);
-//     console.log(catName);
-//     const text = `INSERT INTO categories (cat_name, img_url) SELECT '${catName}', '${filename}'`;
+//     console.log(name);
+//     const text = `INSERT INTO categories (name, img_url) SELECT '${name}', '${filename}'`;
 
 //     const { rows } = await postgresClient.query(text);
 //     return res.status(201).json({ createdCategory: rows[0] });
@@ -62,17 +83,14 @@ router.post("/get", async (req, res) => {
 //   }
 // });
 // const data = new FormData();
-// const fileName = Date.now() + catImg.name;
+// const fileName = Date.now() + img.name;
 // data.append("name", fileName);
-// data.append("image", catImg);
-// data.append("catName", catName)
+// data.append("image", img);
+// data.append("name", name)
 // const response = await axios.post("/category/add", data, {
 //   headers: {
 //     "Content-Type": "multipart/form-data",
 //   },
 // });
-
-
-
 
 export default router;

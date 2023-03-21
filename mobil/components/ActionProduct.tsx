@@ -18,13 +18,13 @@ const ActionProduct: React.FC<IActionProductProps> = ({
   const navigation = useNavigation<StackNavigationProp<RootParamList>>();
 
   const handlePress = () => {
-    navigation.navigate('DetailScreen', {category: category});
+    navigation.navigate('DetailScreen', { screen: category });
   };
 
   return (
     <TouchableHighlight onPress={handlePress} className={`mt-2`}>
       <View className=" bg-green-500 rounded-lg relative flex justify-center items-center">
-
+        
       </View>
     </TouchableHighlight>
   );

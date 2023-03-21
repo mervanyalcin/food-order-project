@@ -1,6 +1,6 @@
 import express from "express";
-import morgan from "morgan";
 import cors from "cors";
+import morgan from "morgan";
 import dotenv from "dotenv"
 import bodyParser from "body-parser"
 import postgresClient from "./config/db.js";
@@ -18,9 +18,9 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use("/auth", userRouter);
-app.use("/category", categoryRouter);
-app.use("/product", productRouter);
+app.use("/api/auth", userRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/products", productRouter);
 
 const PORT = process.env.PORT || 5000;
 

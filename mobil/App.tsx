@@ -1,51 +1,56 @@
 import React from 'react';
-import {} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-//Pages
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import DetailCategory from './screens/CategoryDetailScreen';
 import HomeScreen from './screens/HomeScreen';
-import DetailCategory from './screens/DetailCategory';
-import DetailProduct from './screens/DetailProduct';
+import DetailProduct from './screens/FoodDetailScreen';
+import { Provider } from 'react-redux';
+import { mystore } from './store';
+import { useDispatch } from 'react-redux/es/exports';
 
-interface Item {
-  key: string;
-}
 
 export type RootParamList = {
   Home: undefined;
-  DetailScreen: {category: string} | undefined;
-  DetailProduct: {product: string} | undefined;
+  DetailScreen: { screen: string } | undefined;
+  DetailProduct: { product: string } | undefined;
 };
 
 const Stack = createStackNavigator<RootParamList>();
-function App() {
-  return ( 
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="Home"
-          component={HomeScreen}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="DetailScreen"
-          component={DetailCategory}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-          }}
-          name="DetailProduct"
-          component={DetailProduct}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+
+type Props = {}
+const App: React.FC<Props> = () => {
+  const disp = useDispatch()
+  return (
+    <>
+      <Provider store={mystore}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="Home"
+              component={HomeScreen}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: false,
+              }}
+              name="DetailScreen"
+              component={DetailCategory}
+            />
+            <Stack.Screen
+              options={{
+                headerShown: true,
+              }}
+              name="DetailProduct"
+              component={DetailProduct}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </>
   );
 }
 
-export default App;
+export default App

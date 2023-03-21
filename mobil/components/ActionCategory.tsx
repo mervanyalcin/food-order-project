@@ -7,7 +7,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 interface IActionCategoryProps {
   img: string;
   title: string;
-  category: string;
   menuId: string;
   screen: string;
 }
@@ -15,20 +14,19 @@ interface IActionCategoryProps {
 const ActionCategory: React.FC<IActionCategoryProps> = ({
   img,
   title,
-  category,
   menuId,
   screen,
 }) => {
   const navigation = useNavigation<StackNavigationProp<RootParamList>>();
 
   const handlePress = () => {
-    navigation.navigate('DetailScreen', {category: category});
+    navigation.navigate('DetailScreen', { screen: screen });
   };
 
   return (
     <TouchableHighlight onPress={handlePress} className={`mt-2`}>
       <View className=" bg-green-500 rounded-lg relative flex justify-center items-center">
-        <Text className="text-white absolute z-20 ">{title}</Text>
+        <Text className="text-white absolute z-20 font-bold">{title}</Text>
         <View className="absolute left-0 top-0 w-full h-full bg-black z-10 opacity-40"></View>
         <Image
           source={{
